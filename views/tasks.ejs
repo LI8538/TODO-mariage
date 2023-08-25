@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO maraige</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        h1{
+            text-align: center;
+            margin-top: 50px;
+        }
+        .logo, footer {
+            text-align: center;
+        }
+        hr {
+            margin-bottom: 2em;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: #fff;
+            padding: .5em;
+        }
+
+        .A-faire {
+            background-color: red;
+        }
+
+        .En-cours {
+            background-color: rgb(10, 189, 243);
+        }
+
+        .Terminer {
+            background-color: green;
+        }
+
+        .A-faire,
+        .En-cours,
+        .Terminer {
+            color: #fff;
+            text-align: center;
+            border-radius: 0.5em;
+            font-weight: bold;
+        }
+        button {
+            width: inherit;
+        }
+
+        .message{
+           background-color: #fff;
+           border: 1px solid gainsboro;
+           border-radius: 0.5em;
+           padding: 0.15em;
+           margin: auto;
+           width: 50%;
+           text-align: center;
+        }
+
+        #logo{
+            width: 50%;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>To do List maraige❤️</h1>
+        <div class="logo">
+            <img id="logo" src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80" alt="logo">
+        </div>
+        
+        <hr>
+
+        <% if(message) {%>
+            <div class="message">
+            <%=(message) %>
+            </div>
+        <% } %>
+
+
+        <div class="container">
+            <form action="/tasks/create" method="POST">
+                <div class="grid">
+                    <label for="firstname">
+                        <input type="text" id="title" name="title" placeholder="Titre de la tâche" required>
+                    </label>
+                    <select id="status" name="status" required>
+                        <option value="" selected>Selectionnez un statut</option>
+                        <option value="A-faire">A faire </option>
+                        <option value="En-cours">En cours</option>
+                        <option value="Terminer">Terminer</option>
+                    </select>
+                </div>
+                <label for="description">Description courte de la tâche</label>
+                <input type="text" id="description" name="description" placeholder="Mettre 'Bécane' de Yamé en HD sur Spotify dans les écouteurs." required>
+                <label for="start">Start date:</label>
+                <input type="date" id="start" name="date" value="2023-08-24" min="2023-08-24" max="2024-08-24" />
+                <button type="submit">Enregistrer</button>
+            </form>
+        </div>
+        <hr>
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Titre</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Statut</th>
+                    <th scope="col">Actions</th>
+                    <th scope="col">Show</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%if(tasks.length){%>
+                    <% tasks.forEach(function(task){ %>
+                        <tr>
+                            <td>
+                                <%= task.title %>
+                            </td>
+                            <td>
+                                <%= task.description %>
+                            </td>
+                            <td>
+                                <%= task.date %>
+                            </td>
+                            <td>
+                                <p class="<%= task.status %>">
+                                    <%= task.status %>
+                                </p>
+                            </td>
+                            <td class="actions">
+                                <a class="btn" href="/tasks/delete/<%= task.id %>">
+                                    <img src="https://api.iconify.design/ic:baseline-delete-forever.svg"
+                                        alt="Supprimer">
+                                </a>
+                            </td>
+                            <td class="show">
+                                <a class="btn" href="/tasks/show/<%= task.id %>">
+                                    <img width="20px" src="https://api.iconify.design/ic:baseline-remove-red-eye.svg"
+                                        alt="show">
+                                </a>
+                            </td>
+                        </tr>
+                        <% }) %>
+                            <% }else{ %>
+                                <tr>
+                                    <td colspan="3">No tasks</td>
+                                </tr>
+                                <% } %>
+            </tbody>
+        </table>
+        <footer>
+            <p>Cours de NodeJS - Li</p>
+        </footer>
+    </%div>
+</body>
+
+</html>

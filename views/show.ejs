@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TODO maraige</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
+    <style>
+        h1{
+            text-align: center;
+            margin-top: 50px;
+        }
+        .logo, footer {
+            text-align: center;
+        }
+        hr {
+            margin-bottom: 2em;
+        }
+
+        #logo{
+            width: 50%;
+        }
+
+        th{
+            text-align: center;
+            background-color: black;
+            color: #fff;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <h1>tâche précise avec son ID❤️</h1>
+        <div class="logo">
+            <img id="logo" src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80" alt="logo">
+        </div>
+        <hr>
+        <table>
+            <thead>
+              <tr>
+                <th colspan="4">id de tâche concernant: <%= task.id %></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td> <%= task.title %></td>
+                <td> <%= task.description %></td>
+                <td><%= task.date %></td>
+                <td><%= task.status %></td>
+              </tr>
+            </tbody>
+          </table>
+        <footer>
+            <p>Cours de NodeJS - Li</p>
+        </footer>
+
+</body>
+
+</html>
