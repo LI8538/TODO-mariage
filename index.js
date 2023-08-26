@@ -1,75 +1,24 @@
-// Import d'Express
+// Import des packages
 const express = require('express');
-
-// Import de fs
-const fs = require('fs');
-
-// Import de body-parser
 const bodyParser = require('body-parser');
-
-// Import de json-server
 const jsonServer = require('json-server');
+const router = require('./routes/router');
 
-// Le Middleware json-server
+// Le Middleware json-server avec table tasks
 const jsm = jsonServer.router('db.json');
+//pour ne pas avoir doublant, on mis une fois pour toute
 
-// On lance le serveur express
+//serveur express
 const app = express();
-
-// ------------------ APP USE AND SET ------------------ //
-
+// app.use et app.set
 app.use(bodyParser.urlencoded({ extended: false })); 
-
 app.use(bodyParser.json()); 
-
 app.use('/api', jsm); 
+//ajout fonction d'image
 app.use("/images",express.static("images"));
-
+app.use(router);
+//configurer avec set
 app.set('view engine', 'ejs');
-
-// ------------------ ROUTES ------------------ //
-app.get('/', (req, res) => {
-    res.redirect('/tasks')
-})
-
-app.get('/tasks', (req, res) => {
-    const tasks = JSON.parse(fs.readFileSync('db.json')).tasks
-    let message = ''
-    res.render('tasks', { tasks, message })
-})
-
-app.post('/tasks/create', (req, res) => {
-    const tasks = JSON.parse(fs.readFileSync('db.json')).tasks;
-    const newTask = { 
-        id: Date.now(), 
-        title: req.body.title,
-        description: req.body.description,
-        date:req.body.date,
-        status: req.body.status,
-    };
-    tasks.push(newTask);
-    fs.writeFileSync('db.json', JSON.stringify({ tasks }));
-    // let message = 'La tâche a bien été ajoutée';
-    res.redirect('/tasks');
-});
-
-app.get('/tasks/delete/:id', (req, res) => {
-    const tasks = JSON.parse(fs.readFileSync('db.json')).tasks; 
-    const newTasks = tasks.filter(task => task.id !== parseInt(req.params.id)); 
-    fs.writeFileSync('db.json', JSON.stringify({ tasks: newTasks }));
-    // let message = 'La tâche a bien été supprimée';
-    res.redirect('/tasks');
-});
-
-//ajouter show route avec :id 
-app.get('/tasks/show/:id', (req, res) => {
-    const tasks = JSON.parse(fs.readFileSync('db.json')).tasks; 
-    const task = tasks.find(t => parseInt(t.id) === parseInt(req.params.id)); 
-//ajoute le template de show.ejs
-    res.render('show',{task});
-    console.log(task);
-});
-
 
 // Je suis le dernier de la liste !
 app.listen(3000, () => console.log('Le serveur est lancé sur le port 3000'));
